@@ -38,7 +38,7 @@
 
 import list from "./lib/day1list.js";
 
-const carryingMostCalories = (list) => {
+const carryingMostCalories = () => {
   const elfs = list.split("\n");
   elfs.shift();
   const totalCalories = [];
