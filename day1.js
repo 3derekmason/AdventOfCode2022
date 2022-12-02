@@ -48,29 +48,40 @@
 import list from "./lib/day1list.js";
 
 const carryingMostCalories = () => {
+  // list by new line
   const elfs = list.split("\n");
+
+  // remove first blank item
   elfs.shift();
+
+  // array to hold total calories each elf has with them
   const totalCalories = [];
+
+  // counter to add each elf calories
   let elfCalories = 0;
   for (let i = 0; i < elfs.length; i++) {
+    // if blank item, add current total calorie count and reset count
     if (elfs[i] === "") {
       totalCalories.push(elfCalories);
       elfCalories = 0;
+
+      // otherwise add to the total this elf is carrying
     } else {
       elfCalories = elfCalories + Number(elfs[i]);
     }
   }
+
+  // sort list of total calories and return last three values
   const largestThree = totalCalories
     .sort((a, b) => {
       return a - b;
     })
     .slice(-3);
 
-  let result = 0;
-  largestThree.forEach((n) => {
-    result += n;
-  });
-
+  // add up the largest three total calorie amounts carried by the elfs
+  const result = largestThree.reduce((acc, val) => {
+    return acc + val;
+  }, 0);
   return result;
 };
 
