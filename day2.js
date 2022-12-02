@@ -27,8 +27,46 @@
 
 import strategyGuide from "./lib/day2guide.js";
 
+//helper function to check the winner of game
+const checkWinner = (game) => {
+  const theirMove = game[0];
+  const myMove = game[2] === "X" ? "A" : game[2] === "Y" ? "B" : "C";
+  const RPC = ["A", "B", "C"];
+
+  // score 3 for a draw, 6 for a win, 0 for a loss
+  if (theirMove === myMove) {
+    return 3;
+  } else {
+    if (theirMove === "C") {
+      return myMove === "A" ? 6 : 0;
+    } else {
+      return RPC.indexOf(myMove) === RPC.indexOf(theirMove) + 1 ? 6 : 0;
+    }
+  }
+};
+
 const myTotalScore = () => {
-  return strategyGuide;
+  // mutate list into array of each game moves
+  const games = strategyGuide.split("\n");
+  //remove first empty string
+  games.shift();
+
+  //counter for total score
+  let score = 0;
+
+  // score 1 for X, 2 for Y, 3 for Z, and points from W/L/D
+  games.forEach((game) => {
+    if (game[2] === "X") {
+      score += 1;
+    } else if (game[2] === "Y") {
+      score += 2;
+    } else if (game[2] === "Z") {
+      score += 3;
+    }
+    score += checkWinner(game);
+  });
+
+  return score;
 };
 
 export default myTotalScore;
