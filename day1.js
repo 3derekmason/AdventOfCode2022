@@ -36,7 +36,7 @@
 
 // Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 
-import list from "./day1list.js";
+import list from "./lib/day1list.js";
 
 const carryingMostCalories = (list) => {
   const elfs = list.split("\n");
