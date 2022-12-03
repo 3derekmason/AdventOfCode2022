@@ -58,10 +58,14 @@ import rucksackContents from "./lib/day3content.js";
 
 const eachRucksack = rucksackContents.trim().split("\n");
 
-// const separatedSacks = eachRucksack.map((sack) => [
-//   sack.slice(0, sack.length / 2),
-//   sack.slice(sack.length / 2),
-// ]);
+// split each rucksack into two containers for part i
+
+const separatedSacks = eachRucksack.map((sack) => [
+  sack.slice(0, sack.length / 2),
+  sack.slice(sack.length / 2),
+]);
+
+// split rucksacks into groups of three for part ii
 
 const groupsOfThree = () => {
   let result = [];
@@ -79,6 +83,7 @@ const groupsOfThree = () => {
   return result;
 };
 
+// check each group to find common item
 const findCommonItem = (group) => {
   let result;
   for (let i = 0; i < group[0].length; i++) {
@@ -91,10 +96,12 @@ const findCommonItem = (group) => {
 
 const priorities = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+// score priority for items
 const getItemPriority = (item) => {
   return priorities.indexOf(item) + 1;
 };
 
+// for each group, find common item and add score to total
 const sumOfPriorities = () => {
   let total = 0;
   const sackGroups = groupsOfThree();
