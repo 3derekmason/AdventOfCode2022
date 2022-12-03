@@ -31,6 +31,36 @@
 
 import rucksackContents from "./lib/day3content.js";
 
-const sumOfPriorities = () => {};
+const eachRucksack = rucksackContents.trim().split("\n");
+
+const separatedSacks = eachRucksack.map((sack) => [
+  sack.slice(0, sack.length / 2),
+  sack.slice(sack.length / 2),
+]);
+
+const findCommonItem = (sack) => {
+  let result;
+  for (let i = 0; i < sack[0].length; i++) {
+    if (sack[1].includes(sack[0][i])) {
+      result = sack[0][i];
+    }
+  }
+  return result;
+};
+
+const priorities = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+const getItemPriority = (item) => {
+  return priorities.indexOf(item) + 1;
+};
+
+const sumOfPriorities = () => {
+  let total = 0;
+  separatedSacks.forEach((sack) => {
+    const priority = findCommonItem(sack);
+    total += getItemPriority(priority);
+  });
+  return total;
+};
 
 export default sumOfPriorities;
