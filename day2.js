@@ -25,9 +25,21 @@
 
 // What would your total score be if everything goes exactly according to your strategy guide?
 
+// --- Part Two ---
+// The Elf finishes helping with the tent and sneaks back over to you. "Anyway, the second column says how the round needs to end: X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win. Good luck!"
+
+// The total score is still calculated in the same way, but now you need to figure out what shape to choose so the round ends as indicated. The example above now goes like this:
+
+// In the first round, your opponent will choose Rock (A), and you need the round to end in a draw (Y), so you also choose Rock. This gives you a score of 1 + 3 = 4.
+// In the second round, your opponent will choose Paper (B), and you choose Rock so you lose (X) with a score of 1 + 0 = 1.
+// In the third round, you will defeat your opponent's Scissors with Rock for a score of 1 + 6 = 7.
+// Now that you're correctly decrypting the ultra top secret strategy guide, you would get a total score of 12.
+
+// Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
+
 import strategyGuide from "./lib/day2guide.js";
 
-//helper function to check the winner of game
+//helper function to check the winner of game in part 1:
 const checkWinner = (game) => {
   const theirMove = game[0];
   const myMove = game[2] === "X" ? "A" : game[2] === "Y" ? "B" : "C";
@@ -45,25 +57,41 @@ const checkWinner = (game) => {
   }
 };
 
+//helper function to get which move i need to use in part 2:
+
+const getPointsForGame = (game) => {
+  let gameTotal = 0;
+
+  // add 0 for lose, 3 for draw, 6 for win
+  const WLD = game[2] === "X" ? 0 : game[2] === "Y" ? 3 : 6;
+  gameTotal += WLD;
+
+  // determine what move i need to use, and add 1 for rock, 2 for paper, and 3 for scissors
+  if (WLD === 0) {
+    const add = game[0] === "A" ? 3 : game[0] === "B" ? 1 : 2;
+    gameTotal += add;
+  } else if (WLD === 3) {
+    const add = game[0] === "A" ? 1 : game[0] === "B" ? 2 : 3;
+    gameTotal += add;
+  } else {
+    const add = game[0] === "A" ? 2 : game[0] === "B" ? 3 : 1;
+    gameTotal += add;
+  }
+  return gameTotal;
+};
+
 const myTotalScore = () => {
   // mutate list into array of each game moves
   const games = strategyGuide.split("\n");
-  //remove first empty string
+  //remove first and last empty string
   games.shift();
+  games.pop();
 
   //counter for total score
   let score = 0;
 
-  // score 1 for X, 2 for Y, 3 for Z, and points from W/L/D
   games.forEach((game) => {
-    if (game[2] === "X") {
-      score += 1;
-    } else if (game[2] === "Y") {
-      score += 2;
-    } else if (game[2] === "Z") {
-      score += 3;
-    }
-    score += checkWinner(game);
+    score += getPointsForGame(game);
   });
 
   return score;
