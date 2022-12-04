@@ -46,21 +46,48 @@ const splitList = sectionAssignments.trim().split("\n");
 const assignmentPairs = splitList.map((pair) => pair.split(","));
 
 const checkPairRanges = (pair) => {
-  let range1 = "";
-  let range2 = "";
+  let range1 = [];
+  let range2 = [];
 
-  pair.forEach((assignment) => {
+  // build arrays of each section assigned
+  pair.forEach((assignment, i) => {
     let min = Number(assignment.split("-")[0]);
     let max = Number(assignment.split("-")[1]);
-    console.log(min, max);
-    while (min < max) {}
+
+    // add every value from min to max, alternating for each assignee
+    while (min <= max) {
+      if (i === 0) {
+        range1.push(min);
+        min++;
+      } else if (i === 1) {
+        range2.push(min);
+        min++;
+      }
+    }
   });
+
+  // sort range arrays by length
+  const sorted = [range1, range2].sort((a, b) => a.length - b.length);
+
+  let overlap = true;
+
+  // we only need to look through the shortest arrays values to see if they completely overlap
+  sorted[0].forEach((value) => {
+    if (!sorted[1].includes(value)) {
+      overlap = false;
+    }
+  });
+
+  // add 1 to the count if the longer array contains every value from the shorter array
+  return overlap ? 1 : 0;
 };
 
 const overlapingPairs = () => {
+  let count = 0;
   assignmentPairs.forEach((pair) => {
-    checkPairRanges(pair);
+    count += checkPairRanges(pair);
   });
+  return count;
 };
 
 export default overlapingPairs;
