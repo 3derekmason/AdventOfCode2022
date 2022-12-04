@@ -69,12 +69,12 @@ const checkPairRanges = (pair) => {
   // sort range arrays by length
   const sorted = [range1, range2].sort((a, b) => a.length - b.length);
 
-  let overlap = true;
+  let overlap = false;
 
   // we only need to look through the shortest arrays values to see if they completely overlap
   sorted[0].forEach((value) => {
-    if (!sorted[1].includes(value)) {
-      overlap = false;
+    if (sorted[1].includes(value)) {
+      overlap = true;
     }
   });
 
