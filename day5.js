@@ -68,7 +68,7 @@ const findInts = (string) => {
   let pattern = /\d+/g;
   // Find all numbers in string
   let numbers = string.match(pattern);
-  // Return results
+  // Sort results into arrays of three, [[number to move, stack to move from, stack to move to], ...]
   let count = 0;
   let triple = [];
   let result = [];
@@ -90,20 +90,30 @@ const moveCrates = (procedure) => {
   let destination = procedure[2] - 1;
   while (toMove > 0) {
     let taken = crates[origin].pop();
+    if (!taken) {
+      toMove--;
+      continue;
+    }
     crates[destination].push(taken);
     toMove--;
+    console.log(crates, toMove);
   }
 };
 
 const postRearrangement = () => {
-  console.log(crates);
   // Each procedure is [number to move, stack to move from, stack to move to]
   const procedures = findInts(stackingProcedure);
   procedures.forEach((procedure) => {
     moveCrates(procedure);
   });
-  console.log(crates);
+
+  let message = "";
+  crates.forEach((crate) => {
+    message += crate[crate.length - 1];
+  });
+  return message;
 };
 
 postRearrangement();
+
 export default postRearrangement;
