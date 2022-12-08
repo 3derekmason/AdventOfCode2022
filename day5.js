@@ -63,8 +63,47 @@ const crates = [
   ["W", "G", "D", "N", "P", "L"],
 ];
 
-const postRearrangement = () => {
-  console.log(stackingProcedure);
+const findInts = (string) => {
+  // Compile regex pattern
+  let pattern = /\d+/g;
+  // Find all numbers in string
+  let numbers = string.match(pattern);
+  // Return results
+  let count = 0;
+  let triple = [];
+  let result = [];
+  numbers.forEach((n) => {
+    if (count === 3) {
+      result.push(triple);
+      triple = [];
+      count = 0;
+    }
+    triple.push(Number(n));
+    count++;
+  });
+  return result;
 };
 
+const moveCrates = (procedure) => {
+  let toMove = procedure[0];
+  let origin = procedure[1] - 1;
+  let destination = procedure[2] - 1;
+  while (toMove > 0) {
+    let taken = crates[origin].pop();
+    crates[destination].push(taken);
+    toMove--;
+  }
+};
+
+const postRearrangement = () => {
+  console.log(crates);
+  // Each procedure is [number to move, stack to move from, stack to move to]
+  const procedures = findInts(stackingProcedure);
+  procedures.forEach((procedure) => {
+    moveCrates(procedure);
+  });
+  console.log(crates);
+};
+
+postRearrangement();
 export default postRearrangement;
