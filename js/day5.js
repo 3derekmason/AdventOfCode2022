@@ -90,13 +90,10 @@ const moveCrates = (procedure) => {
   let destination = procedure[2] - 1;
   while (toMove > 0) {
     let taken = crates[origin].pop();
-    if (!taken) {
-      toMove--;
-      continue;
+    if (taken) {
+      crates[destination].push(taken);
     }
-    crates[destination].push(taken);
     toMove--;
-    console.log(crates, toMove);
   }
 };
 
@@ -109,7 +106,7 @@ const postRearrangement = () => {
 
   let message = "";
   crates.forEach((crate) => {
-    message += crate[crate.length - 1];
+    message += crate[crate.length - 1] || "";
   });
   return message;
 };
