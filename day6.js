@@ -28,8 +28,25 @@
 // zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 11
 // How many characters need to be processed before the first start-of-packet marker is detected?
 import datastreamBuffer from "./lib/day6buffer.js";
+
+const findUniquePosition = (string) => {
+  let checked = [];
+  let splitString = string.split("");
+  let result;
+  splitString.forEach((character, i) => {
+    if (checked.includes(character)) {
+      checked = checked.slice(checked.indexOf(character) + 1);
+    }
+    checked.push(character);
+    if (checked.length > 3 && !result) {
+      result = i + 1;
+    }
+  });
+  return result;
+};
+
 const charactersBeforeMarker = () => {
-  console.log("Day 6: ", datastreamBuffer);
+  console.log("Day 6: ", findUniquePosition(datastreamBuffer));
 };
 
 charactersBeforeMarker();
