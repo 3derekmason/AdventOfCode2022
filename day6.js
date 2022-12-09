@@ -38,7 +38,7 @@ const findUniquePosition = (string) => {
       checked = checked.slice(checked.indexOf(character) + 1);
     }
     checked.push(character);
-    if (checked.length > 3 && !result) {
+    if (checked.length > 13 && !result) {
       result = i + 1;
     }
   });
