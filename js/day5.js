@@ -49,7 +49,7 @@
 
 // After the rearrangement procedure completes, what crate ends up on top of each stack?
 
-import stackingProcedure from "./lib/day5procedure.js";
+import stackingProcedure from "./data/day5procedure.js";
 
 const crates = [
   ["L", "N", "W", "T", "D"],
@@ -85,14 +85,28 @@ const findInts = (string) => {
 };
 
 const moveCrates = (procedure) => {
+  if (procedure.length !== 3) {
+    console.log(new Error(`Wrong size input alert, ${procedure}`));
+  }
   let toMove = procedure[0];
-  let origin = procedure[1] - 1;
-  let destination = procedure[2] - 1;
+  // arrays are 0 based index
+  let origin = crates[procedure[1] - 1];
+  let destination = crates[procedure[2] - 1];
+
+  if (!origin || !destination) {
+    console.log(
+      new Error(`Recieved undefined instructions, ${(origin, destination)}`)
+    );
+  }
+  // take crate from the end of one stack and place according to procedure
   while (toMove > 0) {
-    let taken = crates[origin].pop();
-    if (taken) {
-      crates[destination].push(taken);
+    let taken = origin.pop();
+    if (destination.length === 0) {
+      destination[0] = taken;
+    } else {
+      destination.push(taken);
     }
+
     toMove--;
   }
 };
@@ -103,6 +117,7 @@ const postRearrangement = () => {
   procedures.forEach((procedure) => {
     moveCrates(procedure);
   });
+  console.log(crates);
 
   let message = "";
   crates.forEach((crate) => {
